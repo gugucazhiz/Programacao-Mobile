@@ -11,15 +11,17 @@ class WidgetPrincipal extends StatelessWidget{
       title: "Cacluladora", 
       initialRoute: '/',
       routes: {
-        '/': (context) => const ScaffoldHome(),
-        '/second':(context) => const ScaffoldPreenche()
+        '/': (context) =>  ScaffoldHome(),
+        '/preenche':(context) =>  ScaffoldPreenche()
       },
     );
   }
 }
 
 class ScaffoldHome extends StatelessWidget{
-  const ScaffoldHome({super.key});
+  ScaffoldHome({super.key});
+  late String resultado;
+  late String resultadoA;
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -36,7 +38,13 @@ class ScaffoldHome extends StatelessWidget{
           children: [
             Text("0"),
             ElevatedButton(
-              onPressed: () => Navigator.pushNamed(context, "/preenche"),
+              onPressed: () async { 
+              resultado = await Navigator.pushNamed(
+                context,
+                "/preenche",
+              ) as String;
+              print("valor de A: $resultadoA! Resultado B $resultado");
+              },
               child: Text("Informar X")
               )
             ]
@@ -46,11 +54,11 @@ class ScaffoldHome extends StatelessWidget{
             children: [
               Text("0"),
               ElevatedButton(
-                onPressed: () { 
-                  Navigator.pushNamed(
+                onPressed: () async{
+                  resultadoA = await Navigator.pushNamed(
                     context, "/preenche",
-                    arguments: "Exemple",
-                    );
+                    ) as String;
+                  print("valor de A: $resultadoA! resultado B $resultado");
                   },
                 child: Text("Informar Y")
               )
@@ -64,7 +72,8 @@ class ScaffoldHome extends StatelessWidget{
 }
 
 class ScaffoldPreenche extends StatelessWidget{
-  const ScaffoldPreenche({super.key});
+  ScaffoldPreenche({super.key});
+  final controller = TextEditingController();
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -77,13 +86,16 @@ class ScaffoldPreenche extends StatelessWidget{
               SizedBox(
                 width: 200,
                 child: TextField(
+                  controller: controller,
                 decoration:  InputDecoration(border: OutlineInputBorder()),
               )
 
               )
             ],
           ),
-          ElevatedButton(onPressed: null, child:Text("Ok")),
+          ElevatedButton(onPressed:(){
+            Navigator.pop(context,controller.text);
+          }, child:Text("Ok")),
         ],
       ),
     );
