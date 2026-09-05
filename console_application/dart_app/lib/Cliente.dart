@@ -3,7 +3,7 @@ class Cliente{
   String nome;
   String cpf;
   String? telefone;
-  int idade;
+
 
   Cliente({
     required this.id,
