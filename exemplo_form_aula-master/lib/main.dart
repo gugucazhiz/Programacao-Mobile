@@ -7,19 +7,27 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.deepPurple,
+        ),
+      ),
+      home: const MyHomePage(
+        title: 'Flutter Demo Home Page',
+      ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({
+    super.key,
+    required this.title,
+  });
 
   final String title;
 
@@ -30,10 +38,11 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final _form = GlobalKey<FormState>();
 
-  String? validaPreencheDados (String? valor) {
+  String? validaPreencheDados(String? valor) {
     if (valor == null || valor.isEmpty) {
-      return "Preencha informacoes";
+      return 'Preencha as informações';
     }
+
     return null;
   }
 
@@ -48,12 +57,13 @@ class _MyHomePageState extends State<MyHomePage> {
         key: _form,
         child: Center(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               TextFormField(
-                validator: (value ) => validaPreencheDados(value)
+                validator: validaPreencheDados,
               ),
               TextFormField(
-                validator: (value ) => validaPreencheDados(value) ,
+                validator: validaPreencheDados,
               ),
             ],
           ),
@@ -62,8 +72,11 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (_form.currentState!.validate()) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(const SnackBar(content: Text('Processing Data')));
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Processing Data'),
+              ),
+            );
           }
         },
         tooltip: 'Increment',
