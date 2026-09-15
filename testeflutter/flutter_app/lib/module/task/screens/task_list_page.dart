@@ -9,19 +9,15 @@ class TaskListPage extends StatefulWidget {
 }
 
 class _TaskListPageState extends State<TaskListPage> {
-  List<String> _tarefas = [
-    'Tarefa 1',
-    'Tarefa 2',
-    'Tarefa 3',
-  ];
-  int _contador =3;
+  List<String> _tarefas = [];
+  int _contador =0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView.builder(
         itemCount: _tarefas.length,
-        itemBuilder:(context, index) {
+        itemBuilder: (context, index) {
           return ListTile(
             leading: Icon(Icons.label),
             title: Text(_tarefas[index]),
@@ -31,15 +27,35 @@ class _TaskListPageState extends State<TaskListPage> {
           );
         },
       ),
-      floatingActionButton: ElevatedButton(
-        child: Text("LELE"),
-        onPressed: () {
-          setState(() {
-            _contador++;
-            _tarefas.add("Tarefa ${_contador}");
-          });
-        },
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          ElevatedButton(
+            child: Text("+"),
+            onPressed: () {
+              setState(() {
+                if(_contador < 12){
+                _contador++;
+                _tarefas.add("Tarefa ${_contador}");
+                }
+              });
+            },
+          ),
+          SizedBox(width: 40,),
+          ElevatedButton(
+            child: Text("-"),
+            onPressed:(){
+              setState(() {
+                if(_contador > 0){
+                  _tarefas.removeLast();
+                  _contador--;
+                }
+              });
+            }
+            ,)
+        ],
       ),
+
     );
   }
 }
